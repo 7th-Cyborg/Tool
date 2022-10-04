@@ -10,7 +10,7 @@ if ((len(sys.argv)<2) or sys.argv[1].isalpha() or int(sys.argv[1])<1):
 else:
     sleepSeconds = int(sys.argv[1]) * 60
 while(True):
-    pyautogui.moveRel(1,0)
+    pyautogui.moveRel(10,0)
     time.sleep(0.5)
-    pyautogui.moveRel(-1,0)
+    pyautogui.moveRel(-10,0)
     time.sleep(sleepSeconds)
