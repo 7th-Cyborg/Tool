@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload and Split with Axios</title>
+</head>
+<body>
+    <input type="file" id="fileInput" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const chunkSize = 1024 * 1024; // 1MB chunks
+            const totalChunks = Math.ceil(file.size / chunkSize);
+
+            for (let i = 0; i < totalChunks; i++) {
+                const start = i * chunkSize;
+                const end = Math.min(start + chunkSize, file.size);
+                const chunk = file.slice(start, end);
+                
+                // Create form data
+                const formData = new FormData();
+                formData.append('chunk', chunk);
+                formData.append('chunkNumber', i + 1);
+                formData.append('totalChunks', totalChunks);
+
+                // Upload chunk
+                axios.post('/upload', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then(response => {
+                    console.log(`Chunk ${i + 1} uploaded successfully:`, response.data);
+                })
+                .catch(error => {
+                    console.error(`Error uploading chunk ${i + 1}:`, error);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
