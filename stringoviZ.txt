@@ -1,0 +1,21 @@
+const str = '        "NESTO": "Neki, teskst\'s?" , ';
+
+// Step 1: Trim the string
+const trimmedStr = str.trim();
+
+// Step 2: Check if the trimmed string ends with a comma
+const endsWithComma = trimmedStr.endsWith(',');
+
+if (endsWithComma) {
+  // Step 3: Extract strings inside quotes
+  const regex = /"([^"]*)"/g;
+  const matches = [];
+  let match;
+  while (match = regex.exec(trimmedStr)) {
+    matches.push(match[1]);
+  }
+
+  console.log(matches);
+} else {
+  console.log('The string does not end with a comma.');
+}
